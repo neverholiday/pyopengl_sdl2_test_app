@@ -1,3 +1,5 @@
-# install dependencies
-conda 
-
+#   GOAL
+#   this is simple code for sdl2 and pyopengl to render.
+#   I'll keep this repo as a template for doing other thing on my project.
+#   If there are anything need to improve such as handle sdl2 event, own math library (base on numpy). I'll update this repos
+#   So, keep this repos as simple as possible.
