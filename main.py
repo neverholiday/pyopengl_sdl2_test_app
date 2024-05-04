@@ -68,15 +68,23 @@ def run():
 		video.SDL_GL_CONTEXT_PROFILE_CORE)
 	context = sdl2.SDL_GL_CreateContext(window)
 
-	# Setup GL shaders, data, etc.
+	# Setup GL shaders program
 	shaderProgram = None
-	VAO = None
-	VBO = None
-	EBO = None
 
+	# compile shader program
 	vertexShader = shaders.compileShader( VERTEX_SHADER, GL.GL_VERTEX_SHADER )
 	fragmentShader = shaders.compileShader( FRAGMENT_SHADER, GL.GL_FRAGMENT_SHADER )
 	shaderProgram = shaders.compileProgram( vertexShader, fragmentShader, validate=False )
+
+
+	#
+	#	Setup vertex
+	#
+
+	# initial vertex buffer and element buffer object
+	VAO = None
+	VBO = None
+	EBO = None
 
 	vertexData = numpy.array([
 	# Vertex Positions        # color
@@ -86,13 +94,12 @@ def run():
 		 0.5, -0.5, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0,
 
 	], dtype=numpy.float32)
-
 	indicesData = numpy.array( [ 0, 1, 2, 2, 3, 0 ], dtype=numpy.uint32 )
 
 	# Core OpenGL requires that at least one OpenGL vertex array be bound
 	VAO = GL.glGenVertexArrays(1)
 	GL.glBindVertexArray(VAO)
-
+	
 	# Need VBO for triangle vertices and colours
 	VBO = GL.glGenBuffers(1)
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, VBO )
@@ -115,7 +122,7 @@ def run():
 	# number of vertex
 	numVertex = 4
 	numColor = 4
-	glFloatSize = 4
+	glFloatSize = ctypes.sizeof( ctypes.c_float )
 
 	# set vertex attribute
 	GL.glVertexAttribPointer( 0, 
@@ -155,6 +162,10 @@ def run():
 		# render
 		GL.glClearColor(0, 0, 0, 1)
 		GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+
+		#
+		# render part
+		#
 
 		# active shader program
 		GL.glUseProgram(shaderProgram)
